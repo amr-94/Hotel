@@ -32,14 +32,14 @@
                         <td>{{ $booking->created_at->diffforhumans() }}</td>
                         <td>{{ $booking->updated_at->diffforhumans() }}</td>
                         <td>
-                            @if (Auth::user()->id == $booking->user_id)
+                            @if (Auth::user()->id == $booking->user_id || Auth::user()->type == 'admin')
                                 <button type="submit" class="btn btn-outline-success btn-sm">
                                     <a href="{{ route('bookings.edit', $booking->id) }}"
                                         style="color: rgb(170, 170, 170)">Edit</a></button>
                             @endif
                         </td>
                         <td>
-                            @if (Auth::user()->id == $booking->user_id)
+                            @if (Auth::user()->id == $booking->user_id || Auth::user()->type == 'admin')
                                 <form action="{{ route('bookings.destroy', $booking->id) }}" method="POST"
                                     class="delete-form">
                                     @csrf

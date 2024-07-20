@@ -34,7 +34,7 @@
                         <td>{{ $booking->created_at->diffforhumans() }}</td>
                         <td>{{ $booking->updated_at->diffforhumans() }}</td>
                         <td>
-                            @if (Auth::user()->id == $booking->room->user_id && $booking->status == 'pending')
+                            @if (Auth::user()->id == $booking->room->user_id || (Auth::user()->type == 'admin' && $booking->status == 'pending'))
                                 <form action="{{ route('update.request.status', $booking->id) }}" method="POST">
                                     @csrf
 
@@ -50,7 +50,9 @@
                             @endif
                         </td>
                         <td>
-                            @if (Auth::user()->id == $booking->room->user_id || Auth::user()->id == $booking->user_id)
+                            @if (Auth::user()->id == $booking->room->user_id ||
+                                    Auth::user()->type == 'admin' ||
+                                    Auth::user()->id == $booking->user_id)
                                 <form action="{{ route('delete.bookrequest', $booking->id) }}" method="POST"
                                     class="delete-form">
                                     @csrf
